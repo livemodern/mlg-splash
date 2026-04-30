@@ -6,6 +6,14 @@
     {
       "source": "/bot-detector",
       "destination": "https://mlg-crm-api.vercel.app/bot-detector.html"
+    },
+    {
+      "source": "/api/bot-detector",
+      "destination": "https://mlg-crm-api.vercel.app/api/bot-detector"
+    },
+    {
+      "source": "/api/bot-detector/:path*",
+      "destination": "https://mlg-crm-api.vercel.app/api/bot-detector/:path*"
     }
   ]
 }
