@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Living Group · Tools</title>
+  <meta name="description" content="Internal tools and operations portal for Modern Living Group brokers." />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #faf7f0;
+      --bg-soft: #f3eee2;
+      --text: #1f1f1f;
+      --text-muted: #6b6b6b;
+      --text-soft: #9a9690;
+      --card-bg: #ffffff;
+      --border: #e8e3d8;
+      --accent: #b08d57;
+      --accent-soft: #d4b886;
+      --shadow-sm: 0 1px 2px rgba(31, 31, 31, 0.04);
+      --shadow-md: 0 4px 12px rgba(31, 31, 31, 0.06), 0 1px 3px rgba(31, 31, 31, 0.04);
+      --shadow-lg: 0 12px 32px rgba(31, 31, 31, 0.08), 0 4px 8px rgba(31, 31, 31, 0.04);
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 400;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(176, 141, 87, 0.04) 0%, transparent 70%),
+        var(--bg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 24px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .logo-wrap {
+      display: inline-block;
+      margin-bottom: 28px;
+    }
+
+    .logo-wrap img {
+      max-width: 320px;
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+
+    .tagline {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--text-muted);
+      letter-spacing: 0.01em;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      margin: 28px auto;
+      opacity: 0.6;
+    }
+
+    /* Tool grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+
+    .tool-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 32px 28px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .tool-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(176, 141, 87, 0.35);
+    }
+
+    .tool-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .tool-card:hover .tool-arrow {
+      transform: translate(2px, -2px);
+      color: var(--accent);
+    }
+
+    .tool-card:hover .tool-icon {
+      color: var(--accent);
+    }
+
+    .tool-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tool-icon {
+      width: 44px;
+      height: 44px;
+      color: var(--text);
+      flex-shrink: 0;
+      transition: color 0.25s ease;
+    }
+
+    .tool-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke-width: 1.25;
+    }
+
+    .tool-arrow {
+      width: 20px;
+      height: 20px;
+      color: var(--text-soft);
+      flex-shrink: 0;
+      margin-top: 4px;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+    }
+
+    .tool-name {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+
+    .tool-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .tool-domain {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      font-weight: 500;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-soft);
+    }
+
+    .footer-text {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .footer-text span {
+      color: var(--accent);
+      margin: 0 6px;
+      opacity: 0.7;
+    }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      .container {
+        padding: 32px 16px;
+      }
+
+      .header {
+        margin-bottom: 36px;
+      }
+
+      .logo-wrap img {
+        max-width: 260px;
+      }
+
+      .tagline {
+        font-size: 18px;
+      }
+
+      .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-bottom: 40px;
+      }
+
+      .tool-card {
+        padding: 24px 22px;
+        gap: 14px;
+      }
+
+      .tool-icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .tool-name {
+        font-size: 22px;
+      }
+
+      .tool-desc {
+        font-size: 13px;
+      }
+    }
+
+    /* Tap feedback for mobile */
+    @media (hover: none) {
+      .tool-card:active {
+        transform: translateY(0);
+        background: var(--bg-soft);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="logo-wrap">
+        <img src="/mlg-logo.svg" alt="Modern Living Group" />
+      </div>
+      <div class="eyebrow">Internal Tools</div>
+      <p class="tagline">Operations &amp; Resources</p>
+      <div class="divider" aria-hidden="true"></div>
+    </header>
+
+    <section class="tools-grid">
+      <!-- New Construction -->
+      <a href="https://new.mlrecloud.com" class="tool-card" aria-label="Open New Construction Tool">
+        <div class="tool-card-header">
+          <span class="tool-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21h18"/>
+              <path d="M5 21V7l5-3 5 3v14"/>
+              <path d="M19 21V11l-4-2"/>
+              <path d="M9 9v.01"/>
+              <path d="M9 12v.01"/>
+              <path d="M9 15v.01"/>
+              <path d="M9 18v.01"/>
+            </svg>
+          </span>
+          <span class="tool-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17L17 7M17 7H8M17 7v9"/>
+            </svg>
+          </span>
+        </div>
+        <h2 class="tool-name">New Construction</h2>
+        <p class="tool-desc">Luxury condo database tracking new West Palm Beach buildings, plans, pricing, and inventory.</p>
+        <div class="tool-domain">new.mlrecloud.com</div>
+      </a>
+
+      <!-- Pics / Image Tool -->
+      <a href="https://pics.mlrecloud.com" class="tool-card" aria-label="Open Image Prep Tool">
+        <div class="tool-card-header">
+          <span class="tool-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <circle cx="9" cy="11" r="2"/>
+              <path d="M21 17l-5-5-9 9"/>
+              <path d="M16 8l1.5-1.5"/>
+            </svg>
+          </span>
+          <span class="tool-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17L17 7M17 7H8M17 7v9"/>
+            </svg>
+          </span>
+        </div>
+        <h2 class="tool-name">Image Prep</h2>
+        <p class="tool-desc">Scrape developer sites and process images to spec — SEO-ready WebP and JPEG exports.</p>
+        <div class="tool-domain">pics.mlrecloud.com</div>
+      </a>
+
+      <!-- CRM -->
+      <a href="https://crm.mlrecloud.com" class="tool-card" aria-label="Open CRM">
+        <div class="tool-card-header">
+          <span class="tool-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="8" r="3.5"/>
+              <path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/>
+              <circle cx="17" cy="6" r="2.5"/>
+              <path d="M14.5 11.5c2 0 6 1.2 6 4.5"/>
+            </svg>
+          </span>
+          <span class="tool-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17L17 7M17 7H8M17 7v9"/>
+            </svg>
+          </span>
+        </div>
+        <h2 class="tool-name">CRM</h2>
+        <p class="tool-desc">Follow Up Boss connection tool — manage and sync client and lead data across the team.</p>
+        <div class="tool-domain">crm.mlrecloud.com</div>
+      </a>
+
+      <!-- Bot -->
+      <a href="https://bot.mlrecloud.com" class="tool-card" aria-label="Open Registration Bot">
+        <div class="tool-card-header">
+          <span class="tool-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="8" width="16" height="12" rx="2"/>
+              <circle cx="9" cy="14" r="1"/>
+              <circle cx="15" cy="14" r="1"/>
+              <path d="M12 4v4"/>
+              <circle cx="12" cy="3" r="1"/>
+              <path d="M8 20v1M16 20v1"/>
+            </svg>
+          </span>
+          <span class="tool-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17L17 7M17 7H8M17 7v9"/>
+            </svg>
+          </span>
+        </div>
+        <h2 class="tool-name">Registration Bot</h2>
+        <p class="tool-desc">Automated cleanup tool that finds and removes invalid registrations from the CRM database.</p>
+        <div class="tool-domain">bot.mlrecloud.com</div>
+      </a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">
+      Modern Living Group <span>·</span> West Palm Beach <span>·</span> &copy; 2026
+    </p>
+  </footer>
+</body>
+</html>
